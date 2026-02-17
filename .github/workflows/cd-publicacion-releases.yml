@@ -21,10 +21,14 @@ jobs:
           cache: 'maven'
 
       - name: Generar JAR
+        working-directory: AuraReviews
         run: mvn package -DskipTests -B
 
       - name: Crear Release en GitHub
         uses: softprops/action-gh-release@v1
         with:
-          files: target/AuraReviews-0.0.1-SNAPSHOT.jar
+          files: AuraReviews/target/AuraReviews-0.0.1-SNAPSHOT.jar
           body: |
+            ##Nueva versión oficial de AuraReviews
+            Descarga el JAR y ejecútalo con:
+            java -jar AuraReviews-0.0.1-SNAPSHOT.jar
