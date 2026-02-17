@@ -19,6 +19,7 @@ jobs:
           cache: 'maven'
 
       - name: Generar JAR de AuraReviews
+        working-directory: AuraReviews
         run: mvn package -DskipTests -B
 
       - name: Confirmar despliegue
