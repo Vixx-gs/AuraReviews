@@ -20,7 +20,9 @@ jobs:
           distribution: 'temurin'
 
       - name: Compilar AuraReviews
+        working-directory: AuraReviews
         run: mvn compile
 
       - name: Ejecutar tests
+        working-directory: AuraReviews
         run: mvn test
