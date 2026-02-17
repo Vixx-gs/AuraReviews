@@ -19,6 +19,7 @@ jobs:
           cache: 'maven'
 
       - name: Generar JAR
+        working-directory: AuraReviews
         run: mvn package -DskipTests -B
 
       - name: Copiar JAR al servidor remoto via SCP
@@ -28,5 +29,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "target/AuraReviews-0.0.1-SNAPSHOT.jar"
+          source: "AuraReviews/target/AuraReviews-0.0.1-SNAPSHOT.jar"
           target: "/opt/deployments/"
