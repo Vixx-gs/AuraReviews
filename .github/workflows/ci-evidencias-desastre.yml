@@ -19,9 +19,11 @@ jobs:
           cache: 'maven'
 
       - name: Compilar AuraReviews
+        working-directory: AuraReviews
         run: mvn compile
 
       - name: Ejecutar tests
+        working-directory: AuraReviews
         run: mvn test
 
       - name: Subir informes de errores si fallan los tests
@@ -29,5 +31,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: surefire-reports
-          path: target/surefire-reports/
+          path: AuraReviews/target/surefire-reports/
           retention-days: 7
