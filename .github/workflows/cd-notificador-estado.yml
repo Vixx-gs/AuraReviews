@@ -19,6 +19,7 @@ jobs:
           cache: 'maven'
 
       - name: Generar JAR
+        working-directory: AuraReviews
         run: mvn package -DskipTests -B
 
       - name: Notificación de éxito
