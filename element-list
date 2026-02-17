@@ -1,0 +1,5 @@
+com.salesianos.aurareviews
+com.salesianos.aurareviews.controller
+com.salesianos.aurareviews.model
+com.salesianos.aurareviews.repository
+com.salesianos.aurareviews.service
