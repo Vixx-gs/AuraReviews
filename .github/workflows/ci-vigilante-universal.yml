@@ -18,4 +18,5 @@ jobs:
           distribution: 'temurin'
 
       - name: Compilar AuraReviews con Maven
+        working-directory: AuraReviews
         run: mvn compile
