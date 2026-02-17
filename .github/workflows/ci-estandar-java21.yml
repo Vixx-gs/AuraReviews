@@ -1,0 +1,26 @@
+name: CI - Estándar Java 21
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 21 (Zulu)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'zulu'
+
+      - name: Compilar AuraReviews
+        working-directory: AuraReviews
+        run: mvn compile
+
+      - name: Ejecutar tests
+        working-directory: AuraReviews
+        run: mvn test

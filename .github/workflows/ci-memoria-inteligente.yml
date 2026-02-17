@@ -1,0 +1,27 @@
+name: CI - Memoria Inteligente (Caching)
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 21 con caché Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Compilar AuraReviews
+        working-directory: AuraReviews
+        run: mvn compile
+
+      - name: Ejecutar tests
+        working-directory: AuraReviews
+        run: mvn test
