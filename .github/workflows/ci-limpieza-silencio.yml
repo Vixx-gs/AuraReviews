@@ -18,7 +18,9 @@ jobs:
           distribution: 'temurin'
 
       - name: Limpiar y compilar en modo batch
+        working-directory: AuraReviews
         run: mvn clean compile -B
 
       - name: Ejecutar tests en modo batch
+        working-directory: AuraReviews
         run: mvn test -B
