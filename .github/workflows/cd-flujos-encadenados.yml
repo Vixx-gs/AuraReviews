@@ -6,7 +6,7 @@ on:
     types:
       - completed
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
@@ -25,11 +25,12 @@ jobs:
           cache: 'maven'
 
       - name: Generar JAR para despliegue
+        working-directory: AuraReviews
         run: mvn package -DskipTests -B
 
       - name: Subir JAR como artefacto
         uses: actions/upload-artifact@v4
         with:
           name: AuraReviews-produccion
-          path: target/AuraReviews-0.0.1-SNAPSHOT.jar
+          path: AuraReviews/target/AuraReviews-0.0.1-SNAPSHOT.jar
           retention-days: 90
