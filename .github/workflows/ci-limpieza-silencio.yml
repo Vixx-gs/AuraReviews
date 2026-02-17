@@ -1,0 +1,24 @@
+name: CI - Limpieza y Silencio (Modo Batch)
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Limpiar y compilar en modo batch
+        run: mvn clean compile -B
+
+      - name: Ejecutar tests en modo batch
+        run: mvn test -B
