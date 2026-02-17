@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments/head :: head}"></div>
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-chat-left-quote-fill text-primary"></i> Listado de Reviews</h2>
+            <a href="/reviews/nuevo" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Nueva Review
+            </a>
+        </div>
+        
+        <div class="row">
+            <div th:each="review : ${reviews}" class="col-md-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <span>
+                            <i class="bi bi-person-circle"></i>
+                            <strong th:text="${review.cliente.nombre}"></strong>
+                        </span>
+                        <span>
+                            <span th:each="i : ${#numbers.sequence(1, review.valoracion)}">
+                                <i class="bi bi-star-fill text-warning"></i>
+                            </span>
+                            <span th:each="i : ${#numbers.sequence(review.valoracion + 1, 5)}">
+                                <i class="bi bi-star text-warning"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text" th:text="${review.descripcion}"></p>
+                        <small class="text-muted">
+                            Cliente: <span th:text="${review.cliente.nombre}"></span> |
+                            Edad: <span th:text="${review.cliente.edad}"></span> años
+                        </small>
+                    </div>
+                    <div class="card-footer bg-light d-flex justify-content-end gap-2">
+                        <a th:href="@{/reviews/editar/{id}(id=${review.id})}" class="btn btn-sm btn-warning">
+                            <i class="bi bi-pencil-fill"></i> Editar
+                        </a>
+                        <a th:href="@{/reviews/eliminar/{id}(id=${review.id})}" 
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('¿Estás seguro de eliminar esta review?');">
+                            <i class="bi bi-trash-fill"></i> Eliminar
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div th:if="${#lists.isEmpty(reviews)}" class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="bi bi-info-circle"></i> No hay reviews registradas
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

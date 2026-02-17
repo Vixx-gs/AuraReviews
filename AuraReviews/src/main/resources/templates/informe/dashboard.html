@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments/head :: head}"></div>
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    
+    <div class="container mt-4">
+        <h2 class="mb-4">
+            <i class="bi bi-graph-up text-primary"></i> Dashboard de Informes
+        </h2>
+        
+        <div class="row">
+            <!-- Gráfico 1: Clientes por Género -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-gender-ambiguous"></i> Clientes por Género</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chartGenero"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gráfico 2: Reviews por Valoración -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="bi bi-star-fill"></i> Reviews por Valoración</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chartValoracion"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gráfico 3: Clientes por Edad -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="bi bi-calendar-range"></i> Clientes por Franja de Edad</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chartEdad"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gráfico 4: Clientes con Intolerancias -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0"><i class="bi bi-exclamation-triangle-fill"></i> Clientes con Intolerancias</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chartIntolerancias"></canvas>
+                        <div class="text-center mt-3">
+                            <h3 class="text-danger" th:text="${clientesConIntolerancias}"></h3>
+                            <p class="text-muted">clientes con intolerancias alimentarias</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+    
+    <script th:inline="javascript">
+        // Datos desde el servidor
+        const clientesPorGenero = /*[[${clientesPorGenero}]]*/ {};
+        const reviewsPorValoracion = /*[[${reviewsPorValoracion}]]*/ {};
+        const clientesPorEdad = /*[[${clientesPorEdad}]]*/ {};
+        const clientesConIntolerancias = /*[[${clientesConIntolerancias}]]*/ 0;
+        
+        // Gráfico 1: Clientes por Género (Pie)
+        new Chart(document.getElementById('chartGenero'), {
+            type: 'pie',
+            data: {
+                labels: Object.keys(clientesPorGenero),
+                datasets: [{
+                    data: Object.values(clientesPorGenero),
+                    backgroundColor: ['#0d6efd', '#dc3545', '#ffc107', '#198754']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+        
+        // Gráfico 2: Reviews por Valoración (Bar)
+        new Chart(document.getElementById('chartValoracion'), {
+            type: 'bar',
+            data: {
+                labels: ['1', '2', '3', '4', '5'],
+                datasets: [{
+                    label: 'Cantidad de Reviews',
+                    data: Object.values(reviewsPorValoracion),
+                    backgroundColor: '#198754'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+        
+        // Gráfico 3: Clientes por Edad (Bar horizontal)
+        new Chart(document.getElementById('chartEdad'), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(clientesPorEdad),
+                datasets: [{
+                    label: 'Cantidad de Clientes',
+                    data: Object.values(clientesPorEdad),
+                    backgroundColor: '#ffc107'
+                }]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                scales: {
+                    x: { beginAtZero: true }
+                }
+            }
+        });
+        
+        // Gráfico 4: Clientes con/sin Intolerancias (Doughnut)
+        const totalClientes = Object.values(clientesPorGenero).reduce((a, b) => a + b, 0);
+        new Chart(document.getElementById('chartIntolerancias'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Con Intolerancias', 'Sin Intolerancias'],
+                datasets: [{
+                    data: [clientesConIntolerancias, totalClientes - clientesConIntolerancias],
+                    backgroundColor: ['#dc3545', '#198754']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
