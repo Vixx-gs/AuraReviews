@@ -19,9 +19,11 @@ jobs:
           cache: 'maven'
 
       - name: Compilar AuraReviews
+        working-directory: AuraReviews
         run: mvn compile -B
 
       - name: Escanear vulnerabilidades con OWASP
+        working-directory: AuraReviews
         run: mvn org.owasp:dependency-check-maven:check -B
 
       - name: Subir reporte de vulnerabilidades
@@ -29,5 +31,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dependency-check-report
-          path: target/dependency-check-report.html
+          path: AuraReviews/target/dependency-check-report.html
           retention-days: 30
