@@ -8,10 +8,6 @@ on:
 jobs:
   javadoc:
     runs-on: ubuntu-latest
-    
-    defaults:
-      run:
-        working-directory: AuraReviews
 
     steps:
       - name: Checkout código
@@ -25,11 +21,12 @@ jobs:
           cache: 'maven'
 
       - name: Generar Javadoc
+        working-directory: AuraReviews
         run: mvn javadoc:javadoc -B -Dmaven.javadoc.failOnError=false
 
       - name: Desplegar a GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: target/site/apidocs
+          folder: AuraReviews/target/site/apidocs
           branch: gh-pages
           token: ${{ secrets.GITHUB_TOKEN }}
